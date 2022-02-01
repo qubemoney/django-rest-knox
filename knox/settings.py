@@ -9,7 +9,8 @@ USER_SETTINGS = getattr(settings, 'REST_KNOX', None)
 DEFAULTS = {
     'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-    'TOKEN_TTL': timedelta(hours=10),
+    'WEB_TOKEN_TTL': timedelta(days=10),
+    'MOBILE_TOKEN_TTL': timedelta(days=10),
     'USER_SERIALIZER': None,
     'TOKEN_LIMIT_PER_USER': None,
     'AUTO_REFRESH': False,

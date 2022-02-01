@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from knox import crypto
 from knox.settings import CONSTANTS, knox_settings
@@ -9,7 +10,7 @@ User = settings.AUTH_USER_MODEL
 
 
 class AuthTokenManager(models.Manager):
-    def create(self, user, expiry=knox_settings.TOKEN_TTL):
+    def create(self, user, expiry=knox_settings.WEB_TOKEN_TTL):
         token = crypto.create_token_string()
         digest = crypto.hash_token(token)
 
@@ -24,12 +25,19 @@ class AuthTokenManager(models.Manager):
 
 class AuthToken(models.Model):
 
-    objects = AuthTokenManager()
+    TOKEN_TYPE_WEB = "web"
+    TOKEN_TYPE_MOBILE = "mobile"
+    TOKEN_TYPE_CHOICES = (
+        (TOKEN_TYPE_WEB, _(TOKEN_TYPE_WEB)),
+        (TOKEN_TYPE_MOBILE, _(TOKEN_TYPE_MOBILE))
+    )
 
+    objects = AuthTokenManager()
     digest = models.CharField(
         max_length=CONSTANTS.DIGEST_LENGTH, primary_key=True)
     token_key = models.CharField(
         max_length=CONSTANTS.TOKEN_KEY_LENGTH, db_index=True)
+    token_type = models.CharField(max_length=32, choices=TOKEN_TYPE_CHOICES, default=TOKEN_TYPE_WEB)
     user = models.ForeignKey(User, null=False, blank=False,
                              related_name='auth_token_set', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
