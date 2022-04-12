@@ -12,22 +12,22 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='django-rest-knox',
+    name='qube-money-knox',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     version='4.2.0',
-    description='Authentication for django rest framework',
+    description='Custom Fork of django-rest-knox',
     long_description=long_description,
     long_description_content_type='text/markdown',
 
     # The project's main homepage.
-    url='https://github.com/James1345/django-rest-knox',
+    url='https://github.com/qubemoney/django-rest-knox',
 
     # Author details
-    author='James McMahon',
-    author_email='james1345@googlemail.com',
+    author='Qube Money',
+    author_email='admin@qubemoney.com',
 
     # Choose your license
     license='MIT',
