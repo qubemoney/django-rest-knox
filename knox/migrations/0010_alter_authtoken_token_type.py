@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('knox', '0090_authtoken_token_type'),
+        ('knox', '0009_authtoken_token_type'),
     ]
 
     operations = [
