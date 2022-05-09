@@ -1,4 +1,4 @@
-## 4.2.2
+## 4.2.3
 
 - added "trusted_web" token_type
 
