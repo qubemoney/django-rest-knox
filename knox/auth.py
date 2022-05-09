@@ -81,6 +81,8 @@ class TokenAuthentication(BaseAuthentication):
         current_expiry = auth_token.expiry
         if auth_token.token_type == auth_token.TOKEN_TYPE_WEB:
             new_expiry = timezone.now() + knox_settings.WEB_TOKEN_TTL
+        elif auth_token.token_type == auth_token.TOKEN_TYPE_TRUSTED_WEB:
+            new_expiry = timezone.now() + knox_settings.TRUSTED_WEB_TOKEN_TTL
         else:
             new_expiry = timezone.now() + knox_settings.MOBILE_TOKEN_TTL
         auth_token.expiry = new_expiry

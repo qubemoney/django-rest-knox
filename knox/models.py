@@ -25,11 +25,13 @@ class AuthTokenManager(models.Manager):
 
 class AuthToken(models.Model):
 
-    TOKEN_TYPE_WEB = "web"
     TOKEN_TYPE_MOBILE = "mobile"
+    TOKEN_TYPE_TRUSTED_WEB = "trusted_web"
+    TOKEN_TYPE_WEB = "web"
     TOKEN_TYPE_CHOICES = (
+        (TOKEN_TYPE_MOBILE, _(TOKEN_TYPE_MOBILE)),
+        (TOKEN_TYPE_TRUSTED_WEB, _(TOKEN_TYPE_TRUSTED_WEB)),
         (TOKEN_TYPE_WEB, _(TOKEN_TYPE_WEB)),
-        (TOKEN_TYPE_MOBILE, _(TOKEN_TYPE_MOBILE))
     )
 
     objects = AuthTokenManager()
