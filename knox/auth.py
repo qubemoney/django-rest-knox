@@ -5,6 +5,7 @@ except ImportError:
         return a == b
 
 import binascii
+from datetime import timedelta
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +13,7 @@ from rest_framework import exceptions
 from rest_framework.authentication import (
     BaseAuthentication, get_authorization_header,
 )
+from knox.const import RENEW_EXPIRY_MAPPING
 
 from knox.crypto import hash_token
 from knox.models import AuthToken
@@ -79,12 +81,7 @@ class TokenAuthentication(BaseAuthentication):
 
     def renew_token(self, auth_token):
         current_expiry = auth_token.expiry
-        if auth_token.token_type == auth_token.TOKEN_TYPE_WEB:
-            new_expiry = timezone.now() + knox_settings.WEB_TOKEN_TTL
-        elif auth_token.token_type == auth_token.TOKEN_TYPE_TRUSTED_WEB:
-            new_expiry = timezone.now() + knox_settings.TRUSTED_WEB_TOKEN_TTL
-        else:
-            new_expiry = timezone.now() + knox_settings.MOBILE_TOKEN_TTL
+        new_expiry = timezone.now() + RENEW_EXPIRY_MAPPING.get(auth_token.token_type, timedelta(seconds=300))
         auth_token.expiry = new_expiry
         # Throttle refreshing of token to avoid db writes
         delta = (new_expiry - current_expiry).total_seconds()

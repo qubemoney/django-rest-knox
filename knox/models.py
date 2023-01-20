@@ -10,7 +10,7 @@ User = settings.AUTH_USER_MODEL
 
 
 class AuthTokenManager(models.Manager):
-    def create(self, user, token_type, expiry=knox_settings.WEB_TOKEN_TTL):
+    def create(self, user, token_type="web", expiry=knox_settings.WEB_TOKEN_TTL):
         token = crypto.create_token_string()
         digest = crypto.hash_token(token)
 
@@ -28,10 +28,12 @@ class AuthToken(models.Model):
     TOKEN_TYPE_MOBILE = "mobile"
     TOKEN_TYPE_TRUSTED_WEB = "trusted_web"
     TOKEN_TYPE_WEB = "web"
+    TOKEN_TYPE_RESTRICTED = "restricted"
     TOKEN_TYPE_CHOICES = (
         (TOKEN_TYPE_MOBILE, _(TOKEN_TYPE_MOBILE)),
         (TOKEN_TYPE_TRUSTED_WEB, _(TOKEN_TYPE_TRUSTED_WEB)),
         (TOKEN_TYPE_WEB, _(TOKEN_TYPE_WEB)),
+        (TOKEN_TYPE_RESTRICTED, _(TOKEN_TYPE_RESTRICTED))     
     )
 
     objects = AuthTokenManager()
