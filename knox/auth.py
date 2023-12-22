@@ -86,7 +86,7 @@ class TokenAuthentication(BaseAuthentication):
         # Throttle refreshing of token to avoid db writes
         delta = (new_expiry - current_expiry).total_seconds()
         if delta > knox_settings.MIN_REFRESH_INTERVAL:
-            auth_token.save(update_fields=('expiry',))
+            auth_token.save()
 
     def validate_user(self, auth_token):
         if not auth_token.user.is_active:
